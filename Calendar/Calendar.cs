@@ -108,7 +108,7 @@ namespace OutlookCalendar.Controls
         #endregion
 
         private void FilterAppointments()
-        {
+        {   
             DateTime byDate = CurrentDate;
             CalendarDay day = this.GetTemplateChild("day") as CalendarDay;
             day.ItemsSource = Appointments.ByDate(byDate);
