@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Frame Name="test" Background="#30000000"></Frame>
     </Grid>
 </Window>
