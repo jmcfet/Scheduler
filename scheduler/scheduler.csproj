@@ -120,5 +120,8 @@
   <ItemGroup>
     <Resource Include="Superman_shield.svg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="login-system-icon-13.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
