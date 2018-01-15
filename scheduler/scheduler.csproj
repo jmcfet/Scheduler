@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataAccessLayer">
-      <HintPath>..\..\NewOnTheSpot\DataAccessLayer\bin\Debug\DataAccessLayer.dll</HintPath>
+      <HintPath>..\..\..\NewOnTheSpot\onthespot18\DataAccessLayer\bin\Debug\DataAccessLayer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -119,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Superman_shield.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="login-system-icon-13.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

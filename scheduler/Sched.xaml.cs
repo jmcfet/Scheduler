@@ -77,7 +77,27 @@ namespace scheduler
                     dayevent.Foreground = new SolidColorBrush(Colors.Red);
                 future.Children.Add(dayevent);
             }
+            //if (superuser)
+            {
+                mybutton dayevent = new mybutton();
+               
+                dayevent.Content = "Date Picker";
+                dayevent.Click += ShowCalendar_Click; ;
+                future.Children.Add(dayevent);
+            }
+
         }
+
+        private void ShowCalendar_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.Calendar MonthlyCalendar = new System.Windows.Controls.Calendar();
+          //  MonthlyCalendar.CalendarStyle = Microsoft.Windows.Controls.CalendarMode.Month;
+
+         //   MonthlyCalendar.SelectionMode = CalendarSelectionMode.SingleRange;
+
+            future.Children.Add(MonthlyCalendar);
+        }
+
         private void CalendarClosed(object sender,
               RoutedEventArgs e)
         {
@@ -126,7 +146,8 @@ namespace scheduler
             if (about1.worked == true)
             {
                 superuser = true;
-                login.Source =  new BitmapImage(new Uri("Superman_shield.svg.png", UriKind.Relative)); 
+                login.Source =  new BitmapImage(new Uri("Superman_shield.svg.png", UriKind.Relative));
+                populateRightPane();
             }
         }
     }

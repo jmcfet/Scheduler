@@ -80,7 +80,7 @@
             </Grid>
         </Grid>
        
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+       
         <Grid Grid.Column="2">
             <Grid.Resources>
                 <Style TargetType="{x:Type Button}">

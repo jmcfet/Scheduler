@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataAccessLayer">
-      <HintPath>..\..\NewOnTheSpot\DataAccessLayer\bin\Debug\DataAccessLayer.dll</HintPath>
+      <HintPath>..\..\..\NewOnTheSpot\onthespot18\DataAccessLayer\bin\Debug\DataAccessLayer.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
