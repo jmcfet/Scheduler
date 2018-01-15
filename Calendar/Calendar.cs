@@ -115,7 +115,7 @@ namespace OutlookCalendar.Controls
             CalendarLedger test = this.GetTemplateChild("Slots") as CalendarLedger;
             //         day.ItemsSource = Appointments;
             TextBlock dayHeader = this.GetTemplateChild("dayHeader") as TextBlock;
-            dayHeader.Text = byDate.DayOfWeek.ToString();
+            dayHeader.Text =    byDate.Date.ToLongDateString();
 
         }
       

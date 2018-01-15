@@ -77,10 +77,10 @@ namespace scheduler
                     dayevent.Foreground = new SolidColorBrush(Colors.Red);
                 future.Children.Add(dayevent);
             }
-            //if (superuser)
+            if (superuser)
             {
-                mybutton dayevent = new mybutton();
-               
+                 
+                mybutton dayevent =  new mybutton();
                 dayevent.Content = "Date Picker";
                 dayevent.Click += ShowCalendar_Click; ;
                 future.Children.Add(dayevent);
@@ -91,11 +91,26 @@ namespace scheduler
         private void ShowCalendar_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.Calendar MonthlyCalendar = new System.Windows.Controls.Calendar();
-          //  MonthlyCalendar.CalendarStyle = Microsoft.Windows.Controls.CalendarMode.Month;
+            //  MonthlyCalendar.CalendarStyle = Microsoft.Windows.Controls.CalendarMode.Month;
 
-         //   MonthlyCalendar.SelectionMode = CalendarSelectionMode.SingleRange;
-
+            //   MonthlyCalendar.SelectionMode = CalendarSelectionMode.SingleRange;
+            MonthlyCalendar.IsTodayHighlighted = true;
+            MonthlyCalendar.SelectedDatesChanged += MonthlyCalendar_SelectedDatesChanged;
+            //  MonthlyCalendar.DisplayDateStart =  DateTime.Now;
+            mybutton dayevent = future.Children[future.Children.Count - 1] as mybutton;
+            dayevent.Visibility = Visibility.Collapsed;
             future.Children.Add(MonthlyCalendar);
+
+        }
+
+        private void MonthlyCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DateTime picked = (sender as System.Windows.Controls.Calendar).SelectedDate.Value;
+            cal.Appointments = allAppts;   //set control appointments to all as it will filter
+            cal.CurrentDate = picked;
+            cal.Visibility = Visibility.Visible;
+            future.Visibility = Visibility.Collapsed;
+
         }
 
         private void CalendarClosed(object sender,
