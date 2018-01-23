@@ -63,7 +63,7 @@ namespace scheduler
             future.Children.Clear();
             //populate the right pane with button for the next 6 days and highlite
             //any that have appointments
-            for (int i = 0; i < 6; i++)
+            for (int i = 1; i < 7; i++)
             {
                 DateTime t1 = now.AddDays(i);
                 mybutton dayevent = new mybutton();
