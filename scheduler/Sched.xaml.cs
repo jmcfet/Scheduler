@@ -150,6 +150,9 @@ namespace scheduler
             allAppts.Add(appointment);
             dbAccess.SaveAppts(appointment);
             cal.Appointments = Filters.ByDate(allAppts, cal.CurrentDate).ToList();
+            //we might have added an appointment for today so refresh the left side
+            List<DataAccessLayer.Models.Appointment> today = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
+            lvDataBinding.ItemsSource = today;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
