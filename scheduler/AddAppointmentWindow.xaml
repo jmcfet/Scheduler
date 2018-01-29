@@ -12,6 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
@@ -22,10 +23,11 @@
         <Label Grid.Column="0" Grid.Row="1" Content="Start Time" />
         <Label Grid.Column="0" Grid.Row="2" Content="End Time" />
 
-        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Subject, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="185"/>
+        <TextBox Grid.Column="1" Grid.Row="0" x:Name="subject" Text="{Binding Path=Subject, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="185"/>
         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=StartTime, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="185" />
         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=EndTime, Mode=TwoWay, UpdateSourceTrigger=LostFocus, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="185" />
 
-        <Button Content="Add" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Click="Button_Click"/>
+        <Button Content="Add" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Click="Add_Click"/>
+        <Label Name="msg"  Grid.Column="0" Grid.ColumnSpan="2" Background="Red" Grid.Row="4" Content="Subject cannot be blank" Visibility="Collapsed" />
     </Grid>
 </Window>

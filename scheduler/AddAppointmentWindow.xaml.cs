@@ -23,9 +23,12 @@ namespace scheduler
         {
             InitializeComponent();
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (subject.Text.Count() == 0)
+                msg.Visibility = Visibility.Visible;
+            else
+                Close();
         }
     }
 }

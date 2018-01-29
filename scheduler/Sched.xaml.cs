@@ -146,7 +146,7 @@ namespace scheduler
             if (!superuser)
                 return;
             DataAccessLayer.Models.Appointment appointment = new DataAccessLayer.Models.Appointment();
-            appointment.Subject = "Subject?";
+            appointment.Subject = "";
             double Hour = (e.OriginalSource as CalendarTimeslotItem).Hour;
             appointment.StartTime = new DateTime(cal.CurrentDate.Year, cal.CurrentDate.Month, cal.CurrentDate.Day, (int)Hour, 0, 0);
             appointment.EndTime = new DateTime(cal.CurrentDate.Year, cal.CurrentDate.Month, cal.CurrentDate.Day, (int)Hour + 1, 0, 0); ;
@@ -154,7 +154,8 @@ namespace scheduler
             AddAppointmentWindow aaw = new AddAppointmentWindow();
             aaw.DataContext = appointment;
             aaw.ShowDialog();
-
+            if (appointment.Subject.Count() == 0)   
+                return;
             allAppts.Add(appointment);
             dbAccess.SaveAppts(appointment);
             cal.Appointments = Filters.ByDate(allAppts, cal.CurrentDate).ToList();
