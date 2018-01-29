@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace scheduler
 {
@@ -29,7 +31,9 @@ namespace scheduler
         List<DataAccessLayer.Models.Appointment> allAppts;
         CalendarAccess dbAccess;
         bool superuser = false;
-     //   ObservableCollection<DataAccessLayer.Models.Appointment> events;
+        private DispatcherTimer DateChanging;
+        private DateTime _yesturday = DateTime.Today;
+        //   ObservableCollection<DataAccessLayer.Models.Appointment> events;
         public Sched()
         {
             InitializeComponent();
@@ -45,15 +49,19 @@ namespace scheduler
             string error;
             //get all appointments
             allAppts = dbAccess.GetAppointments(out error);
-            
+
             //filter those for today
-            List<DataAccessLayer.Models.Appointment> today = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString() ).ToList();
+            List<DataAccessLayer.Models.Appointment> today = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
             lvDataBinding.ItemsSource = today;
 
 
             //populate the right pane with button for the next 6 days and highlite
             //any that have appointments
             populateRightPane();
+            DateChanging = new DispatcherTimer();
+            DateChanging.Interval = TimeSpan.FromHours(1);
+            DateChanging.Tick += new EventHandler(timer_Tick);
+            DateChanging.Start();
 
         }
 
@@ -79,8 +87,8 @@ namespace scheduler
             }
             if (superuser)
             {
-                 
-                mybutton dayevent =  new mybutton();
+
+                mybutton dayevent = new mybutton();
                 dayevent.Content = "Date Picker";
                 dayevent.Click += ShowCalendar_Click; ;
                 future.Children.Add(dayevent);
@@ -123,14 +131,14 @@ namespace scheduler
         //for the selected day and show appointments if there are any
         private void dayevent_Click(object sender, RoutedEventArgs e)
         {
-           
+
             DateTime thisDate = (DateTime)(sender as mybutton).Date;
             cal.Appointments = allAppts;   //set control appointments to all as it will filter
             //currentdate is a dependency property on the calendar that will cause filtering by CurrentDate
             cal.CurrentDate = thisDate;
             cal.Visibility = Visibility.Visible;
             future.Visibility = Visibility.Collapsed;
-    
+
         }
 
         private void Calendar_AddAppointment(object sender, RoutedEventArgs e)
@@ -141,7 +149,7 @@ namespace scheduler
             appointment.Subject = "Subject?";
             double Hour = (e.OriginalSource as CalendarTimeslotItem).Hour;
             appointment.StartTime = new DateTime(cal.CurrentDate.Year, cal.CurrentDate.Month, cal.CurrentDate.Day, (int)Hour, 0, 0);
-            appointment.EndTime = new DateTime(cal.CurrentDate.Year, cal.CurrentDate.Month, cal.CurrentDate.Day, (int)Hour+1, 0, 0); ;
+            appointment.EndTime = new DateTime(cal.CurrentDate.Year, cal.CurrentDate.Month, cal.CurrentDate.Day, (int)Hour + 1, 0, 0); ;
 
             AddAppointmentWindow aaw = new AddAppointmentWindow();
             aaw.DataContext = appointment;
@@ -164,8 +172,19 @@ namespace scheduler
             if (about1.worked == true)
             {
                 superuser = true;
-                login.Source =  new BitmapImage(new Uri("Superman_shield.svg.png", UriKind.Relative));
+                login.Source = new BitmapImage(new Uri("Superman_shield.svg.png", UriKind.Relative));
                 populateRightPane();
+            }
+        }
+        //if we are in a new day and the app has not been restarted then refreash the left side to show events for today.
+        void timer_Tick(object sender, EventArgs e)
+        {
+            DateTime target = DateTime.Today;
+            if (_yesturday != target)
+            {
+                IEnumerable<DataAccessLayer.Models.Appointment> Appointments = Filters.ByDate(allAppts, target).ToList();
+                lvDataBinding.ItemsSource = Appointments;
+                _yesturday = DateTime.Today;
             }
         }
     }
