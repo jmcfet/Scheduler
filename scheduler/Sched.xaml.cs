@@ -29,7 +29,7 @@ namespace scheduler
     public partial class Sched : UserControl
     {
         List<DataAccessLayer.Models.Appointment> allAppts;
-        List<DataAccessLayer.Models.Appointment> today;
+        ObservableCollection<DataAccessLayer.Models.Appointment> today;
         CalendarAccess dbAccess;
         bool superuser = false;
         private DispatcherTimer DateChanging;
@@ -52,9 +52,8 @@ namespace scheduler
             allAppts = dbAccess.GetAppointments(out error);
 
             //filter those for today
-        //    List<DataAccessLayer.Models.Appointment> today = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
-          DateTime tom =  DateTime.Now.AddDays(1);
-            today = allAppts.Where(a => a.StartTime.ToShortDateString() == tom.ToShortDateString()).ToList();
+            List<DataAccessLayer.Models.Appointment> temp = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
+            today = new ObservableCollection<DataAccessLayer.Models.Appointment>(temp) ;
             lvDataBinding.ItemsSource = today;
             
 
@@ -167,15 +166,18 @@ namespace scheduler
             lvDataBinding.ItemsSource = today;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
 
             Dialog about1 = new Dialog();
             about1.ShowDialog();
             superuser = false;
             if (about1.worked == true)
-            {
+            { 
                 superuser = true;
+               if (today.Count > 0)
+                    //  Delete.IsEnabled = true;
+                    Delete.Visibility = Visibility.Visible;
                 login.Source = new BitmapImage(new Uri("Superman_shield.svg.png", UriKind.Relative));
                 populateRightPane();
             }
@@ -194,13 +196,15 @@ namespace scheduler
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
+            List<DataAccessLayer.Models.Appointment> toRemove = new List<DataAccessLayer.Models.Appointment>();  
             foreach (object o in lvDataBinding.SelectedItems)
             {
 
                 DataAccessLayer.Models.Appointment appt = o as DataAccessLayer.Models.Appointment;
                 dbAccess.DeleteAppointment(appt.Subject,appt.StartTime);
-                today.Remove(appt);
+                toRemove.Add(appt);
             }
+            toRemove.ForEach(t => today.Remove(t));
             //we might have added an appointment for today so refresh the left side
             //  List<DataAccessLayer.Models.Appointment> revisedAppts = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
           

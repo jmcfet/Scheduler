@@ -132,5 +132,8 @@
   <ItemGroup>
     <Resource Include="login-system-icon-13.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="close-octagon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
