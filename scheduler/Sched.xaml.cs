@@ -29,6 +29,7 @@ namespace scheduler
     public partial class Sched : UserControl
     {
         List<DataAccessLayer.Models.Appointment> allAppts;
+        List<DataAccessLayer.Models.Appointment> today;
         CalendarAccess dbAccess;
         bool superuser = false;
         private DispatcherTimer DateChanging;
@@ -51,9 +52,11 @@ namespace scheduler
             allAppts = dbAccess.GetAppointments(out error);
 
             //filter those for today
-            List<DataAccessLayer.Models.Appointment> today = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
+        //    List<DataAccessLayer.Models.Appointment> today = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
+          DateTime tom =  DateTime.Now.AddDays(1);
+            today = allAppts.Where(a => a.StartTime.ToShortDateString() == tom.ToShortDateString()).ToList();
             lvDataBinding.ItemsSource = today;
-
+            
 
             //populate the right pane with button for the next 6 days and highlite
             //any that have appointments
@@ -187,6 +190,22 @@ namespace scheduler
                 lvDataBinding.ItemsSource = Appointments;
                 _yesturday = DateTime.Today;
             }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (object o in lvDataBinding.SelectedItems)
+            {
+
+                DataAccessLayer.Models.Appointment appt = o as DataAccessLayer.Models.Appointment;
+                dbAccess.DeleteAppointment(appt.Subject,appt.StartTime);
+                today.Remove(appt);
+            }
+            //we might have added an appointment for today so refresh the left side
+            //  List<DataAccessLayer.Models.Appointment> revisedAppts = allAppts.Where(a => a.StartTime.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
+          
+            lvDataBinding.ItemsSource = today;
+            cal.Appointments = today;
         }
     }
     class mybutton:Button

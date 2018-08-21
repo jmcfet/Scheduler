@@ -57,6 +57,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
+            
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -67,11 +68,16 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="11*"></ColumnDefinition>
                     <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>  
             
                 <TextBlock  Grid.Column="0"  FontSize="20" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" >Today</TextBlock>
                 <Button Grid.Column="1"  Height="30" Click="Button_Click" >
                     <Image x:Name="login" Source="login-system-icon-13.png">
+                    </Image>
+                </Button>
+                <Button Name="Delete" Grid.Column="2"  Height="30" Click="Delete_Click" >
+                    <Image x:Name="login1" Source="login-system-icon-13.png">
                     </Image>
                 </Button>
             </Grid>
