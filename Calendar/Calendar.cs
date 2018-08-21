@@ -17,6 +17,7 @@ namespace OutlookCalendar.Controls
 {
     public class Calendar : Control
     {
+        //test
         static Calendar()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Calendar), new FrameworkPropertyMetadata(typeof(Calendar)));
