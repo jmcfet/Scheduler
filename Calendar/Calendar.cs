@@ -18,7 +18,7 @@ namespace OutlookCalendar.Controls
     public class Calendar : Control
     {
         //test
-        static Calendar()
+        static Calendar()  //vvvv
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Calendar), new FrameworkPropertyMetadata(typeof(Calendar)));
             CommandManager.RegisterClassCommandBinding(typeof(Calendar), new CommandBinding(Back, new ExecutedRoutedEventHandler(OnExecutedBack), new CanExecuteRoutedEventHandler(OnCanExecuteBack)));
